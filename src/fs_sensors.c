@@ -63,7 +63,7 @@ Error* FS_Sensors_GetTemperature(float* out) {
 
   if (t_max == 0)
     return err_string(0, "No temperatures available");
-  *out = t_max + 100;
+  *out = 100.0;
   return err_success();
 }
 

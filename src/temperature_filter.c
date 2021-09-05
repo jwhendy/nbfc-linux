@@ -20,8 +20,9 @@ Error* TemperatureFilter_Init(TemperatureFilter* self, int poll_interval, int ti
 }
 
 float TemperatureFilter_FilterTemperature(TemperatureFilter* self, float temperature) {
-  my.sum -= my.ring_buffer.data[my.index];
-  my.sum += temperature;
+  my.sum = temperature < my.ring_buffer.data[my.index] ? my.ring_buffer.data[my.index] : temperature;
+  // my.sum -= my.ring_buffer.data[my.index];
+  // my.sum += temperature;
   my.ring_buffer.data[my.index] = temperature;
 
   if (++my.index == my.ring_buffer.size) {
@@ -29,5 +30,6 @@ float TemperatureFilter_FilterTemperature(TemperatureFilter* self, float tempera
     my.buffer_is_full = true;
   }
 
-  return my.sum / (my.buffer_is_full ? my.ring_buffer.size : my.index);
+  // return my.sum / (my.buffer_is_full ? my.ring_buffer.size : my.index);
+  return my.sum;
 }
