@@ -52,19 +52,18 @@ static Error* FS_TemperatureSource_GetTemperature(FS_TemperatureSource* self, fl
 
 Error* FS_Sensors_GetTemperature(float* out) {
   Error* e = NULL;
-  float tmp, sum = 0;
-  int   total = 0;
+  float tmp, t_max = 0;
+
   for_each_array(FS_TemperatureSource*, s, FS_Sensors_Sources) {
     e = FS_TemperatureSource_GetTemperature(s, &tmp);
     if (! e) {
-      sum += tmp;
-      total++;
+      t_max = t_max < tmp ? tmp : t_max;
     }
   }
 
-  if (! total)
+  if (t_max == 0)
     return err_string(0, "No temperatures available");
-  *out = sum / total;
+  *out = t_max + 100;
   return err_success();
 }
 
