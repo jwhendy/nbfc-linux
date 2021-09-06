@@ -8,7 +8,7 @@
 	{
 	 "ReadRegister": 46,
 	 "WriteRegister": 47,
-	 "MinSpeedValue": 255,
+	 "MinSpeedValue": 200,
 	 "MaxSpeedValue": 0,
 	 "IndependentReadMinMaxValues": false,
 	 "MinSpeedValueRead": 0,
@@ -54,7 +54,7 @@
 	{
 	 "ReadRegister": 53,
 	 "WriteRegister": 54,
-	 "MinSpeedValue": 255,
+	 "MinSpeedValue": 200,
 	 "MaxSpeedValue": 0,
 	 "IndependentReadMinMaxValues": false,
 	 "MinSpeedValueRead": 0,
