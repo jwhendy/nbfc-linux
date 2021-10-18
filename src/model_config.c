@@ -104,9 +104,9 @@ static Error* EmbeddedControllerType_FromJson(EmbeddedControllerType* v, const n
   const char* s = NULL;
   Error* e = nx_json_get_str(&s, json);
   if (e) return e;
-  else if (!strcmp(s, "ECSysLinux")) *v = EmbeddedControllerType_ECSysLinux;
-  else if (!strcmp(s, "ECLinux"))    *v = EmbeddedControllerType_ECLinux;
-  else if (!strcmp(s, "ECDummy"))    *v = EmbeddedControllerType_ECDummy;
+  else if (!strcmp(s, "ec_sys_linux")) *v = EmbeddedControllerType_ECSysLinux;
+  else if (!strcmp(s, "ec_linux"))     *v = EmbeddedControllerType_ECLinux;
+  else if (!strcmp(s, "dummy"))        *v = EmbeddedControllerType_ECDummy;
   else return err_string(0, "Invalid value for EmbeddedControllerType");
   return e;
 }
@@ -208,12 +208,18 @@ Error* Config_Validate(Config* c) {
       has_100_FanSpeed |= (t->FanSpeed == 100);
 
       if (t->UpThreshold < t->DownThreshold) {
-        e = err_string(0, "UpThreshold must be greater than DownThreshold");
+        e = err_string(0, "UpThreshold cannot be less than DownThreshold");
         goto err;
       }
 
-      if (t->UpThreshold >= c->CriticalTemperature) {
-        e = err_string(0, "UpThreshold must be lower than critical temperature");
+      if (t->UpThreshold > c->CriticalTemperature) {
+        e = err_string(0, "UpThreshold cannot be greater than CriticalTemperature");
+        goto err;
+      }
+
+      if (t->UpThreshold == 0) {
+        e = err_string(0, "UpThreshold must be greater than 0.\nFor information "
+          "on how NBFC Linux differs to the original NBFC, consult the README");
         goto err;
       }
 
@@ -266,4 +272,3 @@ Error* Config_FromFile(Config* config, const char* file) {
   e_check();
   return Config_FromJson(config, js);
 }
-

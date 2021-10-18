@@ -1,7 +1,12 @@
 # TODO: Check for libsensors and add `-DHAVE_SENSORS` and `-lsensors`
 
-release: nbfc_service ec_probe
-debug:   nbfc_service-debug ec_probe-debug
+release: nbfc_service ec_probe nbfc
+debug:   nbfc_service-debug ec_probe-debug nbfc-debug
+
+confdir = /etc
+sharedir = /usr/share
+CCFLAGS = $(CFLAGS) -Wall -Wextra -Wfatal-errors -Wpedantic -lm
+CFLAGS_MAIN = $(CCFLAGS) -DCONFDIR=\"$(confdir)\" -DDATADIR=\"$(sharedir)\"
 
 nbfc_service-debug: \
 	build.c \
@@ -29,7 +34,7 @@ nbfc_service-debug: \
 	temperature_filter.c temperature_filter.h \
 	temperature_threshold_manager.c temperature_threshold_manager.h \
 	optparse/optparse.h optparse/optparse.c
-	$(CC) $(CFLAGS) -Wall -Wextra -Wfatal-errors -Wpedantic -Og -g build.c -lm -o nbfc_service-debug
+	$(CC) -Og -g build.c -o nbfc_service-debug $(CFLAGS_MAIN)
 
 nbfc_service: \
 	build.c \
@@ -57,7 +62,7 @@ nbfc_service: \
 	temperature_filter.c temperature_filter.h \
 	temperature_threshold_manager.c temperature_threshold_manager.h \
 	optparse/optparse.h optparse/optparse.c
-	$(CC) $(CFLAGS) -Wall -Wextra -Os -DNDEBUG -s build.c -lm -o nbfc_service
+	$(CC) -Os -DNDEBUG -s build.c -o nbfc_service $(CFLAGS_MAIN)
 
 ec_probe-debug: \
 	ec_probe.c \
@@ -67,7 +72,7 @@ ec_probe-debug: \
 	nbfc.h \
 	memory.h memory.c \
 	optparse/optparse.h optparse/optparse.c
-	$(CC) $(CFLAGS) -Wall -Wextra -Wfatal-errors -Wpedantic -Og -g ec_probe.c -o ec_probe-debug
+	$(CC) -Og -g ec_probe.c -o ec_probe-debug $(CFLAGS_MAIN)
 
 ec_probe: \
 	ec_probe.c \
@@ -77,7 +82,25 @@ ec_probe: \
 	nbfc.h \
 	memory.h memory.c \
 	optparse/optparse.h optparse/optparse.c
-	$(CC) $(CFLAGS) -Wall -Wextra -Os -DNDEBUG -s ec_probe.c -lm -o ec_probe
+	$(CC) -Os -DNDEBUG -s ec_probe.c -o ec_probe $(CFLAGS_MAIN)
+
+nbfc-debug: \
+	client.c \
+	error.h error.c \
+	generated/ec_probe.help.h \
+	optparse/optparse.h optparse/optparse.c \
+	nxjson.c reverse_nxjson.c nxjson.h \
+	nbfc.h
+	$(CC) -Og -g client.c -o nbfc-debug $(CFLAGS_MAIN)
+
+nbfc: \
+	client.c \
+	error.h error.c \
+	generated/ec_probe.help.h \
+	optparse/optparse.h optparse/optparse.c \
+	nxjson.c reverse_nxjson.c nxjson.h \
+	nbfc.h
+	$(CC) -Os -DNDEBUG -s client.c -o nbfc $(CFLAGS_MAIN)
 
 generated/: .force
 	mkdir -p generated
@@ -87,7 +110,7 @@ generated/: .force
 	argparse-tool printf ../tools/argparse-tool/ec_probe.py     -o generated/ec_probe.help.h
 
 clean:
-	rm -f nbfc_service ec_probe nbfc_service-debug ec_probe-debug a.out
+	rm -f nbfc_service ec_probe nbfc_service-debug ec_probe-debug a.out nbfc nbfc-debug
 	rm -f *.o
 	(cd optparse; make clean)
 

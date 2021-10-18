@@ -21,6 +21,7 @@ Comparison of NBFC C# and NBFC Linux
 
 The [service](doc/nbfc_service.md) and the [probing tool](doc/ec_probe.md) are written in C.
 The [client](doc/nbfc.md) is written in Python.
+Another [client](doc/nbfc.md) has also been [written in C](src/client.c).
 
 Installation
 ------------
@@ -71,13 +72,15 @@ Differences en detail
 
 - The original NBFC service adjusts the fan speeds in intervals of `EcPollIntervall` according to `TemperatureThresholds`. - NBFC Linux directly sets the fan speed (also according to `TemperatureThresholds`).
 
+- The original NBFC service selects a TemperatureThreshold and applies its `FanSpeed` when the temperature exceeds its `UpThreshold`. In contrast, NBFC Linux will select the *next* TemperatureThreshold and apply its `FanSpeed` when the temperature exceeds the *current* `UpThreshold`. The provided config files have been reconfigured to account for this change, so that they provide the same behaviour as the original NBFC service. If you have a custom config file that works well with the original service, you can port it to NBFC Linux using the [provided tool](/tools/config_to_json.py) (requires python3-lxml).
+
 - NBFC Linux dropped the `Autostart` option, since it relies on the systemd service file only.
 
 Troubleshooting
 ---------------
 The preferred way of running nbfc is using the `ECSysLinux` implementation, which depends on the `ec_sys` kernel module.
-There is also an alternative implementation which uses `/dev/port`, called `ECLinux`.
-It can be specified on the commandline using `--embedded-controller=ECLinux` and permanently set in `/etc/nbfc/nbfc.json` with `"EmbeddedControllerType": "ECLinux"`.
+There is also an alternative implementation which uses `/dev/port`, called `ec_linux`.
+It can be specified on the commandline using `--embedded-controller=ec_linux` and permanently set in `/etc/nbfc/nbfc.json` with `"EmbeddedControllerType": "ec_linux"`.
 
 For running NBFC with Secure Boot and Lockdown Kernel, see [acpi\_ec](https://github.com/MusiKid/acpi_ec)
 
