@@ -1,6 +1,6 @@
 {
  "NotebookModel": "HP ZBook Fury 15 G7",
- "Author": "jwhendy (based on HP ZBook 15 G3)",
+ "Author": "jwhendy (based on HP Zbook 15 G3)",
  "EcPollInterval": 1000,
  "ReadWriteWords": false,
  "CriticalTemperature": 85,
@@ -8,37 +8,37 @@
 	{
 	 "ReadRegister": 46,
 	 "WriteRegister": 47,
-	 "MinSpeedValue": 200,
+	 "MinSpeedValue": 225,
 	 "MaxSpeedValue": 0,
 	 "IndependentReadMinMaxValues": false,
 	 "MinSpeedValueRead": 0,
 	 "MaxSpeedValueRead": 0,
 	 "ResetRequired": true,
 	 "FanSpeedResetValue": 255,
-	 "FanDisplayName": "Right CPU fan",
+	 "FanDisplayName": "Right fan",
 	 "TemperatureThresholds": [
 	  {
-	   "UpThreshold": 0,
+	   "UpThreshold": 60,
 	   "DownThreshold": 0,
 	   "FanSpeed": 0.0
 	  },
 	  {
-	   "UpThreshold": 60,
+	   "UpThreshold": 65,
 	   "DownThreshold": 50,
 	   "FanSpeed": 40.0
 	  },
 	  {
-	   "UpThreshold": 65,
+	   "UpThreshold": 70,
 	   "DownThreshold": 57,
 	   "FanSpeed": 60.0
 	  },
 	  {
-	   "UpThreshold": 70,
+	   "UpThreshold": 80,
 	   "DownThreshold": 62,
-	   "FanSpeed": 80.0
+	   "FanSpeed": 75.0
 	  },
 	  {
-	   "UpThreshold": 80,
+	   "UpThreshold": 85,
 	   "DownThreshold": 67,
 	   "FanSpeed": 100.0
 	  }
@@ -54,37 +54,37 @@
 	{
 	 "ReadRegister": 53,
 	 "WriteRegister": 54,
-	 "MinSpeedValue": 200,
+	 "MinSpeedValue": 225,
 	 "MaxSpeedValue": 0,
 	 "IndependentReadMinMaxValues": false,
 	 "MinSpeedValueRead": 0,
 	 "MaxSpeedValueRead": 0,
 	 "ResetRequired": true,
 	 "FanSpeedResetValue": 255,
-	 "FanDisplayName": "Left CPU Fan",
+	 "FanDisplayName": "Left Fan",
 	 "TemperatureThresholds": [
 	  {
-	   "UpThreshold": 0,
+	   "UpThreshold": 60,
 	   "DownThreshold": 0,
 	   "FanSpeed": 0.0
 	  },
 	  {
-	   "UpThreshold": 60,
+	   "UpThreshold": 65,
 	   "DownThreshold": 50,
 	   "FanSpeed": 40.0
 	  },
 	  {
-	   "UpThreshold": 65,
+	   "UpThreshold": 70,
 	   "DownThreshold": 57,
 	   "FanSpeed": 60.0
 	  },
 	  {
-	   "UpThreshold": 70,
+	   "UpThreshold": 80,
 	   "DownThreshold": 62,
-	   "FanSpeed": 80.0
+	   "FanSpeed": 75.0
 	  },
 	  {
-	   "UpThreshold": 80,
+	   "UpThreshold": 85,
 	   "DownThreshold": 67,
 	   "FanSpeed": 100.0
 	  }
